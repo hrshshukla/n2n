@@ -24,7 +24,7 @@ export default function InviteCode({ port, token, filename, filesize, onCancel }
   };
 
   return (
-    <div className="h-full p-4 bg-white/5 rounded-lg">
+    <div className="h-full p-4 bg-white/5 rounded-lg backdrop-blur-3xl">
       {/* Top: filename + size + cancel */}
       {filename && (
         <div className="mb-3 flex items-center justify-between bg-white/3 p-2 rounded-md">

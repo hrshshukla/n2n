@@ -31,7 +31,7 @@ export default function FileUpload({ onFileUpload, isUploading }: FileUploadProp
     <div 
       {...getRootProps()} 
       className={`
-        w-full h-full p-8 border-2 bg-gray-500/5 flex items-center justify-center border-dashed rounded-lg text-center cursor-pointer transition-all
+        w-full h-full p-8 border-2 bg-black/50 flex items-center justify-center border-dashed rounded-lg text-center cursor-pointer transition-all
         ${dragActive 
           ? 'border-blue-500 bg-blue-50/5' 
           : 'border-gray-300 hover:border-blue-400 hover:bg-white/5'
@@ -46,7 +46,7 @@ export default function FileUpload({ onFileUpload, isUploading }: FileUploadProp
         </div>
         <p className={` text-lg font-medium text-gray-400`}>Drag & drop a file here, or click to select</p>
         <p className="text-sm text-gray-500">
-          Share any file with your peers securely
+          Share any file with anybody securely
         </p>
       </div>
     </div>

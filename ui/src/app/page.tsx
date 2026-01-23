@@ -10,6 +10,7 @@ import Lightning from "@/components/Lightning";
 import Navbar from "@/components/Navbar";
 import GradientText from "@/components/GradientText";
 import DecryptedText from "@/components/DecryptedText";
+import { DownloadCloud, Upload, UploadCloud } from "lucide-react";
 
 export default function Home() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -127,54 +128,65 @@ export default function Home() {
   return (
     <div className="container h-screen w-screen relative bg-black">
       <Navbar />
-      <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
+      {/* <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} /> */}
 
       <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
-        <div className="wrapper h-[75%] w-full border-white flex-col">
+        
+        <div className="wrapper h-[75%] mt-5 w-full border-white flex-col">
           <div className="Heading h-1/4 backdrop-blur-0 flex justify-center items-center text-white fig-extralight text-5xl border-white">
-            <span>When</span>
+            <span className="text-white/80">When</span>
             <GradientText
               colors={["#017AFF", "#FEFEFF", "#0AFF"]}
               animationSpeed={0.4}
               showBorder={false}
               yoyo={false}
               direction="horizontal"
-              className="mx-[5px] p-2 fig-medium"
+              className="!mx-[6px] p-2 fig-medium"
             >
               Speed
             </GradientText>
-            <span className="mr-3">meets</span>
+            <span className="mr-3 text-white/80">meets</span>
             <DecryptedText
               text="Security"
               animateOn="view"
               className="fig-medium transition-all"
               revealDirection="start"
               sequential
-              speed={500}
+              speed={200}
               useOriginalCharsOnly={false}
             />
           </div>
           <div className=" rounded-lg backdrop-blur-lg bg-black/30 border-white shadow-lg w-full h-3/4 px-6 py-4 ">
-            <div className="flex mb-4">
+            <div className="relative flex mb-4 items-center justify-between bg-white/5 rounded-full p-1">
+              {/* slider */}
+              <div
+                className={`absolute top-1 left-1 h-[calc(100%-0.5rem)] w-1/2 rounded-full 
+    bg-blue-500/15 border border-blue-500/40 transition-transform duration-300 ease-in-out
+    ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
+              />
+
               <button
-                className={`px-4 py-2 font-medium ${
+                className={`relative z-10 px-4 py-2 font-medium rounded-full flex items-center justify-center gap-4 w-1/2 transition-colors ${
                   activeTab === "upload"
-                    ? "text-blue-600 border-b-2 border-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
                 onClick={() => setActiveTab("upload")}
               >
-                Share a File
+                <UploadCloud />
+                <span>Share File</span>
               </button>
+
               <button
-                className={`px-4 py-2 font-medium ${
+                className={`relative z-10 px-4 py-2 font-medium rounded-full flex items-center justify-center gap-4 w-1/2 transition-colors ${
                   activeTab === "download"
-                    ? "text-blue-600 border-b-2 border-blue-600"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
                 onClick={() => setActiveTab("download")}
               >
-                Receive a File
+                <DownloadCloud />
+                <span>Receive File</span>
               </button>
             </div>
 

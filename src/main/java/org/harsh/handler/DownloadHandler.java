@@ -118,7 +118,7 @@ public class DownloadHandler implements HttpHandler {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error downloading file from peer: " + e.getMessage());
+            System.err.println("Error downloading file from n2n: " + e.getMessage());
             String response = "Error downloading file: " + e.getMessage();
             headers.add("Content-Type", "text/plain");
             exchange.sendResponseHeaders(500, response.getBytes().length);

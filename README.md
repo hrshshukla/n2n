@@ -1,6 +1,6 @@
-# 🔗 PeerLink - Secure P2P File Sharing
+# 🔗 Node To Node - Secure N2N File Sharing
 
-A modern, secure peer-to-peer file sharing application built with Java (backend) and Next.js (frontend). Share files directly between users with PIN-based authentication and enterprise-grade security features.
+A modern, secure node-2-node file sharing application built with Java (backend) and Next.js (frontend). Share files directly between users with PIN-based authentication and enterprise-grade security features.
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat)
 ![NextJS](https://img.shields.io/badge/Next.js-14-black?style=flat)
@@ -27,7 +27,7 @@ A modern, secure peer-to-peer file sharing application built with Java (backend)
 ## ✨ Features
 
 - **🔐 PIN-Based Authentication**: Each upload generates a unique 6-digit PIN for secure access
-- **⚡ Real-Time P2P Transfer**: Direct file transfer between peers without centralized storage
+- **⚡ Real-Time N2N Transfer**: Direct file transfer between nodes without centralized storage
 - **📁 Multiple File Types**: Support for documents, images, PDFs, and archives
 - **🛡️ Enterprise Security**: Rate limiting, file validation, and timeout protection
 - **🎨 Modern UI**: Clean, responsive interface built with React and Tailwind CSS
@@ -39,11 +39,11 @@ A modern, secure peer-to-peer file sharing application built with Java (backend)
 
 ## 🏗️ Architecture & Concepts
 
-### **1. Peer-to-Peer (P2P) Architecture**
+### **1. Node-to-Node  Architecture**
 
-PeerLink implements a hybrid P2P model:
+n2n implements a hybrid  model:
 - **Central Coordinator**: Backend server manages file metadata and authentication
-- **Direct Transfer**: Actual file data flows directly between peers via TCP sockets
+- **Direct Transfer**: Actual file data flows directly between nodes via TCP sockets
 - **Dynamic Ports**: Each file sharing session uses a unique, randomly assigned port
 
 ```
@@ -52,7 +52,7 @@ PeerLink implements a hybrid P2P model:
 │         │ Metadata│  (Java API)  │ Metadata│           │
 └────┬────┘         └──────────────┘         └─────┬─────┘
      │                                             │
-     │          Direct P2P Transfer                │
+     │          Direct  Transfer                │
      └─────────────────────────────────────────────┘
                   (TCP Socket)
 ```
@@ -150,8 +150,8 @@ Clean, stateless API endpoints following REST principles:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/peerlink.git
-   cd peerlink
+   git clone https://github.com/yourusername/n2n.git
+   cd n2n
    ```
 
 2. **Build the backend**
@@ -169,7 +169,7 @@ Clean, stateless API endpoints following REST principles:
 
 Terminal 1 (Backend):
 ```bash
-java -cp target/p2p-1.0-SNAPSHOT.jar org.abhineshjha.App
+java -cp target/n2n-1.0-SNAPSHOT.jar org.harsh.App
 ```
 
 Terminal 2 (Frontend):
@@ -224,8 +224,8 @@ if (port == null) {
 ## 📁 Project Structure
 
 ```
-PeerLink/
-├── src/main/java/org/abhineshjha/
+n2n/
+├── src/main/java/org/harsh/
 │   ├── App.java                    # Application entry point
 │   ├── controller/
 │   │   └── FileController.java     # HTTP server & routing
@@ -234,7 +234,7 @@ PeerLink/
 │   │   ├── UploadHandler.java      # File upload logic
 │   │   └── DownloadHandler.java    # File download logic
 │   ├── service/
-│   │   └── FileSharer.java         # P2P server & token management
+│   │   └── FileSharer.java         #  server & token management
 │   └── utils/
 │       ├── MultiParser.java        # Multipart form parser
 │       └── UploadUtils.java        # Port generation utility
@@ -318,7 +318,7 @@ Content-Disposition: attachment; filename="document.pdf"
 
 ## 🎯 Key Concepts Explained
 
-### **1. Why P2P Instead of Cloud Storage?**
+### **1. Why  Instead of Cloud Storage?**
 
 **Advantages:**
 - ✅ No server storage costs
@@ -327,7 +327,7 @@ Content-Disposition: attachment; filename="document.pdf"
 - ✅ Better privacy (no server retention)
 
 **Trade-offs:**
-- ❌ Both peers must be online
+- ❌ Both nodes must be online
 - ❌ Single-use transfers
 
 ### **2. Thread-Safe Concurrent Access**
@@ -378,9 +378,9 @@ File Transfer
 
 ## 👨‍💻 Author
 
-**Abhinesh Jha**
-- GitHub: [@Abhineshhh](https://github.com/Abhineshhh)
-- LinkedIn: [Abhinesh Jha](https://linkedin.com/in/abhineshjha)
+**Harsh Shukla**
+- GitHub: [@harshshukla](https://github.com/hrshshukla)
+- LinkedIn: [Harsh Shukla](https://www.linkedin.com/in/hrsh-shukla/)
 
 ---
 
@@ -388,7 +388,7 @@ File Transfer
 **⭐ If you find this project useful, please consider giving it a star!**
 
 ```
-Peerlink
+n2n
 ├─ README.md
 ├─ pom.xml
 ├─ src
@@ -411,7 +411,7 @@ Peerlink
 │  └─ test
 │     └─ java
 │        └─ org
-│           └─ abhineshjha
+│           └─ harsh
 │              └─ AppTest.java
 └─ ui
    ├─ .next
@@ -1057,7 +1057,7 @@ Peerlink
 
 ```
 ```
-Peerlink
+n2n
 ├─ README.md
 ├─ pom.xml
 ├─ src
@@ -1080,7 +1080,7 @@ Peerlink
 │  └─ test
 │     └─ java
 │        └─ org
-│           └─ abhineshjha
+│           └─ harsh
 │              └─ AppTest.java
 └─ ui
    ├─ .next

@@ -22,7 +22,7 @@ public class FileController {
     public FileController(int port) throws IOException {
         this.fileSharer = new FileSharer();
         this.httpServer = HttpServer.create(new InetSocketAddress(port), 0);
-        this.uploadDir = System.getProperty("java.io.tmpdir") + File.separator + "peerlink-uploads";
+        this.uploadDir = System.getProperty("java.io.tmpdir") + File.separator + "node2node-uploads";
         this.executorService = Executors.newFixedThreadPool(10);
 
         File uploadDirs = new File(uploadDir);
