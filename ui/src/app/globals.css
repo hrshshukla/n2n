@@ -107,6 +107,7 @@
 }
 
 /* weights */
+.fig-extralight {font-weight: 100;}
 .fig-light { font-weight: 300; }
 .fig-regular { font-weight: 400; }
 .fig-medium { font-weight: 500; }

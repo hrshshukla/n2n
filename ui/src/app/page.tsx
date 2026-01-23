@@ -8,6 +8,8 @@ import InviteCode from "@/components/InviteCode";
 import axios from "axios";
 import Lightning from "@/components/Lightning";
 import Navbar from "@/components/Navbar";
+import GradientText from "@/components/GradientText";
+import DecryptedText from "@/components/DecryptedText";
 
 export default function Home() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -123,77 +125,102 @@ export default function Home() {
   };
 
   return (
-    <div className="container h-screen w-screen relative">
+    <div className="container h-screen w-screen relative bg-black">
       <Navbar />
       <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
 
-      <div className="container border-white backdrop-blur-lg bg-black/20 flex items-center rounded-lg justify-center w-1/2 h-[53%]  absolute transform translate-x-1/2 translate-y-1/2">
-        <div className=" rounded-lg  border-white shadow-lg w-full h-full bg-gray-400/5 px-6 py-4 ">
-          <div className="flex mb-4">
-            <button
-              className={`px-4 py-2 font-medium ${
-                activeTab === "upload"
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-              onClick={() => setActiveTab("upload")}
+      <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
+        <div className="wrapper h-[75%] w-full border-white flex-col">
+          <div className="Heading h-1/4 backdrop-blur-0 flex justify-center items-center text-white fig-extralight text-5xl border-white">
+            <span>When</span>
+            <GradientText
+              colors={["#017AFF", "#FEFEFF", "#0AFF"]}
+              animationSpeed={0.4}
+              showBorder={false}
+              yoyo={false}
+              direction="horizontal"
+              className="mx-[5px] p-2 fig-medium"
             >
-              Share a File
-            </button>
-            <button
-              className={`px-4 py-2 font-medium ${
-                activeTab === "download"
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "text-gray-500 hover:text-gray-700"
-              }`}
-              onClick={() => setActiveTab("download")}
-            >
-              Receive a File
-            </button>
+              Speed
+            </GradientText>
+            <span className="mr-3">meets</span>
+            <DecryptedText
+              text="Security"
+              animateOn="view"
+              className="fig-medium transition-all"
+              revealDirection="start"
+              sequential
+              speed={500}
+              useOriginalCharsOnly={false}
+            />
           </div>
-
-          {activeTab === "upload" ? (
-            <div className=" border-white h-[80%]">
-              {/* Show upload box only when no file selected */}
-              {!uploadedFile ? (
-                <FileUpload
-                  onFileUpload={handleFileUpload}
-                  isUploading={isUploading}
-                />
-              ) : (
-                // Show InviteCode when a file has been selected/uploaded.
-                <InviteCode
-                  port={port}
-                  token={token}
-                  filename={uploadedFile.name}
-                  filesize={uploadedFile.size}
-                  onCancel={handleCancelInviteUI}
-                />
-              )}
-
-              {/* keep the uploading spinner as before */}
-              {isUploading && (
-                <div className="mt-6 text-center">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-                  <p className="mt-2 text-gray-600">Uploading file...</p>
-                </div>
-              )}
+          <div className=" rounded-lg backdrop-blur-lg bg-black/30 border-white shadow-lg w-full h-3/4 px-6 py-4 ">
+            <div className="flex mb-4">
+              <button
+                className={`px-4 py-2 font-medium ${
+                  activeTab === "upload"
+                    ? "text-blue-600 border-b-2 border-blue-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setActiveTab("upload")}
+              >
+                Share a File
+              </button>
+              <button
+                className={`px-4 py-2 font-medium ${
+                  activeTab === "download"
+                    ? "text-blue-600 border-b-2 border-blue-600"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+                onClick={() => setActiveTab("download")}
+              >
+                Receive a File
+              </button>
             </div>
-          ) : (
-            <div>
-              <FileDownload
-                onDownload={handleDownload}
-                isDownloading={isDownloading}
-              />
 
-              {isDownloading && (
-                <div className="mt-6 text-center">
-                  <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-                  <p className="mt-2 text-gray-600">Downloading file...</p>
-                </div>
-              )}
-            </div>
-          )}
+            {activeTab === "upload" ? (
+              <div className=" border-white h-[80%]">
+                {/* Show upload box only when no file selected */}
+                {!uploadedFile ? (
+                  <FileUpload
+                    onFileUpload={handleFileUpload}
+                    isUploading={isUploading}
+                  />
+                ) : (
+                  // Show InviteCode when a file has been selected/uploaded.
+                  <InviteCode
+                    port={port}
+                    token={token}
+                    filename={uploadedFile.name}
+                    filesize={uploadedFile.size}
+                    onCancel={handleCancelInviteUI}
+                  />
+                )}
+
+                {/* keep the uploading spinner as before */}
+                {isUploading && (
+                  <div className="mt-6 text-center">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+                    <p className="mt-2 text-gray-600">Uploading file...</p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <FileDownload
+                  onDownload={handleDownload}
+                  isDownloading={isDownloading}
+                />
+
+                {isDownloading && (
+                  <div className="mt-6 text-center">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+                    <p className="mt-2 text-gray-600">Downloading file...</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

@@ -54,8 +54,8 @@ export default function FileDownload({ onDownload, isDownloading }: FileDownload
               type="text"
               value={accessToken}
               onChange={(e) => setAccessToken(e.target.value)}
-              placeholder="e.g. 8080-ABCD"
-              className="w-full bg-transparent text-white py-3 outline-none placeholder:text-white/30 font-mono tracking-wide"
+              placeholder="0000"
+              className="w-full bg-transparent text-white py-3 px-2 outline-none placeholder:text-white/30 font-mono tracking-wide"
             />
           </div>
         </div>
