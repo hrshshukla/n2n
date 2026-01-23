@@ -15,7 +15,7 @@ ui/out/
 .DS_Store
 
 # Runtime Files
-peerlink-uploads/
+n2n-uploads/
 *.log
 
 # Internal Documentation

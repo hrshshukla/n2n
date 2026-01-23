@@ -1,4 +1,3 @@
-// Replace your existing page.tsx (Home) with this (only small changes from original)
 "use client";
 
 import { useState } from "react";
@@ -128,7 +127,7 @@ export default function Home() {
   return (
     <div className="container h-screen w-screen relative bg-black">
       <Navbar />
-      {/* <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} /> */}
+      <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
 
       <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
         
@@ -236,9 +235,18 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="w-full py-4 text-center text-sm text-white/50 absolute bottom-0">
-        Made with ❤️ by{" "}
-        <span className="font-medium text-white/70">Harsh Shukla</span>
+      <footer className="w-full py-4 flex items-center justify-center text-center text-sm text-white/50 absolute bottom-0">
+        Made with <GradientText
+              colors={["#d9262f", "#7c0315"]}
+              animationSpeed={0.4}
+              showBorder={false}
+              yoyo={false}
+              direction="horizontal"
+              className="!mx-[5px] fig-medium"
+            >
+              ❤️ 
+            </GradientText>by{" "}
+        <span className="font-medium ml-1 text-white/70">Harsh Shukla</span>
       </footer>
     </div>
   );
