@@ -1,18 +1,27 @@
 // Replace your existing InviteCode.tsx with this
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { FiCopy, FiCheck, FiX } from 'react-icons/fi';
+import { FileIcon, ImageIcon } from "lucide-react";
+import { useState } from "react";
+import { FiCopy, FiCheck, FiX } from "react-icons/fi";
 
 interface InviteCodeProps {
   port: number | null;
   token: string | null;
   filename?: string | null;
-  filesize?: number | null; // in bytes
+  filesize?: number | null;
+  isUploading?: boolean;
   onCancel?: () => void;
 }
 
-export default function InviteCode({ port, token, filename, filesize, onCancel }: InviteCodeProps) {
+export default function InviteCode({
+  port,
+  token,
+  filename,
+  filesize,
+  isUploading,
+  onCancel,
+}: InviteCodeProps) {
   const [copiedToken, setCopiedToken] = useState(false);
   const kbSize = filesize ? Math.round(filesize / 1024) : null;
 
@@ -26,23 +35,39 @@ export default function InviteCode({ port, token, filename, filesize, onCancel }
   return (
     <div className="h-full p-4 bg-white/5 rounded-lg backdrop-blur-3xl">
       {/* Top: filename + size + cancel */}
-      {filename && (
-        <div className="mb-3 flex items-center justify-between bg-white/3 p-2 rounded-md">
-          <div className="text-sm text-white/80">
-            <div className="font-medium truncate" title={filename}>{filename}</div>
-            <div className="text-xs text-white/50">{kbSize !== null ? `${kbSize} KB` : ''}</div>
+      <div className="mb-3 flex items-center h-[20%] border-white justify-between bg-white/3 rounded-md">
+        {isUploading ? (
+          <div className="flex items-center gap-3 text-white/70">
+            <div className="animate-spin rounded-full h-4 w-4 border-blue-400 border-t-transparent"></div>
+            <span className="text-sm">Uploading file...</span>
           </div>
+        ) : (
+          <div className="text-sm text-white/80 bg-gray-400/5 cursor-pointer h-full border-white w-[28%] rounded-sm flex items-center justify-around ">
+            <FileIcon className="fill-white/20 stroke-none size-8 w-1/4"/>
+            <div className="fileName w-3/4">
+              <div
+                className="font-medium truncate cursor-pointer"
+                title={filename}
+              >
+                {filename}
+              </div>
+              <div className="text-xs text-white/50">
+                {kbSize !== null ? `${kbSize} KB` : ""}
+              </div>
+            </div>
+          </div>
+        )}
 
+        {!isUploading && (
           <button
             aria-label="Cancel share"
             onClick={() => onCancel && onCancel()}
-            className="ml-4 p-2 rounded-md hover:bg-white/5 transition-colors"
-            title="Cancel and choose another file"
+            className="ml-4 p-2 rounded-md hover:bg-white/5 absolute top-1 right-1  transition-colors"
           >
             <FiX className="w-5 h-5 text-white/60" />
           </button>
-        </div>
-      )}
+        )}
+      </div>
 
       <h3 className="text-lg font-bold text-green-500">File Ready to Share!</h3>
       <p className="text-sm font-medium text-green-500/80 mb-3">
@@ -50,28 +75,35 @@ export default function InviteCode({ port, token, filename, filesize, onCancel }
       </p>
       <div className="space-y-3">
         <div>
-          <label className="text-xs font-medium text-white/50 mb-1 block">Access PIN</label>
+          <label className="text-xs font-medium text-white/50 mb-1 block">
+            Access PIN
+          </label>
           <div className="flex items-center">
             <div
               className={`flex-1 bg-white/20 text-white p-3 h-12 rounded-l-md font-mono text-lg tracking-wider flex items-center ${
-                token ? '' : 'opacity-70'
+                token ? "" : "opacity-70"
               }`}
             >
-              {token ? token : 'Generating PIN...'}
+              {token ? token : "Generating PIN..."}
             </div>
             <button
               onClick={copyTokenToClipboard}
-              className={`p-3 h-12 rounded-r-md transition-colors ${token ? 'bg-green-500 hover:bg-green-600' : 'bg-white/10 cursor-not-allowed'}`}
+              className={`p-3 h-12 rounded-r-md transition-colors ${token ? "bg-green-500 hover:bg-green-600" : "bg-white/10 cursor-not-allowed"}`}
               aria-label="Copy access PIN"
               disabled={!token}
             >
-              {copiedToken ? <FiCheck className="w-5 h-5" /> : <FiCopy className="w-5 h-5" />}
+              {copiedToken ? (
+                <FiCheck className="w-5 h-5" />
+              ) : (
+                <FiCopy className="w-5 h-5" />
+              )}
             </button>
           </div>
         </div>
       </div>
       <p className="mt-3 text-xs text-gray-500">
-        The access PIN is required to download the file. This adds extra security to your file sharing.
+        The access PIN is required to download the file. This adds extra
+        security to your file sharing.
       </p>
     </div>
   );

@@ -127,7 +127,7 @@ export default function Home() {
   return (
     <div className="container h-screen w-screen relative bg-black">
       <Navbar />
-      <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
+      {/* <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} /> */}
 
       <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
         
@@ -204,16 +204,9 @@ export default function Home() {
                     token={token}
                     filename={uploadedFile.name}
                     filesize={uploadedFile.size}
+                    isUploading={isUploading}
                     onCancel={handleCancelInviteUI}
                   />
-                )}
-
-                {/* keep the uploading spinner as before */}
-                {isUploading && (
-                  <div className="mt-6 text-center">
-                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
-                    <p className="mt-2 text-gray-600">Uploading file...</p>
-                  </div>
                 )}
               </div>
             ) : (
