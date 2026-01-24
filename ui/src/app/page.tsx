@@ -127,7 +127,7 @@ export default function Home() {
   return (
     <div className="container h-screen w-screen relative bg-black">
       <Navbar />
-      {/* <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} /> */}
+      <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
 
       <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
         
