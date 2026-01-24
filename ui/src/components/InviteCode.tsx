@@ -47,7 +47,7 @@ export default function InviteCode({
             <div className="fileName w-3/4">
               <div
                 className="font-medium truncate cursor-pointer"
-                title={filename}
+                title={filename ?? ""}
               >
                 {filename}
               </div>

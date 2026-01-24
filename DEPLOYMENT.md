@@ -121,25 +121,41 @@ If you prefer to set up manually:
 
    ```bash
    # For the backend
-   cd ~/n2n
-   pm2 start java --name n2n-backend --cwd /home/ubuntu/n2n/target -- -jar n2n-1.0-SNAPSHOT-shaded.jar
+      #(1) Direct start :
+      cd ~/n2n
+      pm2 start java --name n2n-backend --cwd /home/ubuntu/n2n/target -- -jar n2n-1.0-SNAPSHOT-shaded.jar
 
+      #(2) Pull from github and Restart :
+      cd ~/n2n
+      git pull origin main
+      mvn clean package
+      pm2 restart n2n-backend
 
    # For the frontend
-   cd ~/n2n/ui
-   npm run build
-   pm2 start npm --name n2n-frontend -- start
+      #(1) Direct start :
+      cd ~/n2n/ui
+      npm run build
+      pm2 start npm --name n2n-frontend -- start
 
+      #(2) Pull from github and Restart :
+      cd ~/n2n/ui
+      git pull origin main
+      npm install      # agar new dependency aayi ho toh
+      npm run build
+
+      pm2 restart n2n-frontend
    ```
 
-
 6. Set up Nginx as a reverse proxy using the provided `nginx.conf.example` as a template:
+   
    ```bash
    sudo cp nginx.conf.example /etc/nginx/sites-available/n2n
    sudo ln -sf /etc/nginx/sites-available/n2n /etc/nginx/sites-enabled/
    sudo nginx -t
    sudo systemctl restart nginx
-````
+   ```
+
+
 
 1. Set up SSL with Let's Encrypt:
    ```bash
@@ -187,3 +203,4 @@ Once deployed, consider:
 4. Adding a CDN for improved performance
 
 Remember that the current implementation is designed for demonstration purposes. For a production-ready n2n file sharing service, additional work on security, scalability, and reliability would be necessary.
+````
