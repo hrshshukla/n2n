@@ -130,7 +130,6 @@ export default function Home() {
       <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
 
       <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
-        
         <div className="wrapper h-[75%] mt-5 w-full border-white flex-col">
           <div className="Heading h-1/4 backdrop-blur-0 flex justify-center items-center text-white fig-extralight text-5xl border-white">
             <span className="text-white/80">When</span>
@@ -190,7 +189,7 @@ export default function Home() {
             </div>
 
             {activeTab === "upload" ? (
-              <div className=" border-white h-[80%]">
+              <div className=" h-[80%] ">
                 {/* Show upload box only when no file selected */}
                 {!uploadedFile ? (
                   <FileUpload
@@ -210,14 +209,14 @@ export default function Home() {
                 )}
               </div>
             ) : (
-              <div>
-                <FileDownload
-                  onDownload={handleDownload}
-                  isDownloading={isDownloading}
-                />
-
-                {isDownloading && (
-                  <div className="mt-6 text-center">
+              <div className="border-white h-[80%] flex items-center justify-center">
+                {!isDownloading ? (
+                  <FileDownload
+                    onDownload={handleDownload}
+                    isDownloading={isDownloading}
+                  />
+                ) : (
+                  <div className=" text-center  ">
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
                     <p className="mt-2 text-gray-600">Downloading file...</p>
                   </div>
@@ -229,17 +228,18 @@ export default function Home() {
       </div>
 
       <footer className="w-full py-4 flex items-center justify-center text-center text-sm text-white/50 absolute bottom-0">
-        Made with <GradientText
-              colors={["#d9262f", "#7c0315"]}
-              animationSpeed={0.4}
-              showBorder={false}
-              yoyo={false}
-              direction="horizontal"
-              className="!mx-[5px] fig-medium"
-            >
-              ❤️ 
-            </GradientText>by{" "}
-        <span className="font-medium ml-1 text-white/70">Harsh Shukla</span>
+        Made with{" "}
+        <GradientText
+          colors={["#d9262f", "#7c0315"]}
+          animationSpeed={0.4}
+          showBorder={false}
+          yoyo={false}
+          direction="horizontal"
+          className="!mx-[5px] fig-medium"
+        >
+          ❤️
+        </GradientText>
+        by <span className="font-medium ml-1 text-white/70">Harsh Shukla</span>
       </footer>
     </div>
   );

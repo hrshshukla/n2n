@@ -32,7 +32,7 @@ export default function FileDownload({ onDownload, isDownloading }: FileDownload
   };
 
   return (
-    <div className="  p-5 bg-white/5 rounded-lg">
+    <div className="  p-5 bg-white/5 rounded-lg w-full">
       {/* Header */}
       <div className="mb-4">
         <h3 className="text-lg font-bold text-blue-500">Receive a File</h3>
