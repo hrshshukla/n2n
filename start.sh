@@ -1,28 +1,40 @@
 #!/bin/bash
+set -e
 
 # Build the Java backend
 echo "Building Java backend..."
 mvn clean package
 
-# Start the Java backend in the background
+# Start the Java backend in background (CORRECT JAR)
 echo "Starting Java backend..."
-java -jar target/n2n-1.0-SNAPSHOT.jar &
+java -jar target/n2n-1.0-SNAPSHOT-shaded.jar &
 BACKEND_PID=$!
 
-# Wait for the backend to start
+# Wait for backend
 echo "Waiting for backend to start..."
-sleep 3
+sleep 5
 
-# Install frontend dependencies if node_modules doesn't exist
-if [ ! -d "ui/node_modules" ]; then
+# Frontend directory
+FRONTEND_DIR="n2n-ui"
+
+# Install frontend dependencies if missing
+if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
   echo "Installing frontend dependencies..."
-  cd ui && npm install && cd ..
+  cd "$FRONTEND_DIR"
+  npm install
+  cd ..
 fi
 
-# Start the frontend
+# Start frontend
 echo "Starting frontend..."
-cd ui && npm run dev
+cd "$FRONTEND_DIR"
+npm run dev &
+FRONTEND_PID=$!
+cd ..
 
-# When the frontend is stopped, also stop the backend
+# Wait for frontend to exit
+wait $FRONTEND_PID
+
+# Stop backend when frontend stops
 echo "Stopping backend (PID: $BACKEND_PID)..."
 kill $BACKEND_PID
