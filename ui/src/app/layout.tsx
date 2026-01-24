@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="min-h-screen font-figtree">
+        <main className="min-h-screen font-figtree overflow-hidden">
           {children}
         </main>
       </body>
