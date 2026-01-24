@@ -35,10 +35,10 @@ sudo npm install -g pm2
 echo "Installing Maven..."
 sudo apt install -y maven
 
-# Clone repository (uncomment and modify if using Git)
-echo "Cloning repository..."
-git clone https://github.com/hrshshukla/n2n.git
-cd n2n
+# # Clone repository (uncomment and modify if using Git)
+# echo "Cloning repository..."
+# git clone https://github.com/hrshshukla/n2n.git
+# cd n2n
 
 # Build backend
 echo "Building Java backend..."
