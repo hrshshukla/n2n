@@ -15,7 +15,7 @@ echo "Waiting for backend to start..."
 sleep 5
 
 # Frontend directory
-FRONTEND_DIR="n2n-ui"
+FRONTEND_DIR="ui"
 
 # Install frontend dependencies if missing
 if [ ! -d "$FRONTEND_DIR/node_modules" ]; then
