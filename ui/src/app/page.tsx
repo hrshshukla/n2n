@@ -125,13 +125,14 @@ export default function Home() {
   };
 
   return (
-    <div className="container h-screen w-screen relative bg-black">
+    <div className="container h-screen w-screen relative bg-black pt-5 md:pt-0">
       <Navbar />
-      <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
 
-      <div className="container mx-auto pt-10 flex items-center rounded-lg justify-center w-1/2 h-full">
-        <div className="wrapper h-[75%] mt-5 w-full border-white flex-col">
-          <div className="Heading h-1/4 backdrop-blur-0 flex justify-center items-center text-white fig-extralight text-5xl border-white">
+      {/* <Lightning hue={228} xOffset={1} speed={0.5} intensity={1} size={6} /> */}
+
+      <div className="container mx-auto flex rounded-lg justify-center w-full h-full md:pt-10 md:border-white md:items-center md:w-1/2">
+        <div className="wrapper h-[75%] w-full border-white flex-col md:mt-5">
+          <div className="Heading h-1/4 backdrop-blur-0 text-2xl md:text-5xl flex justify-center items-center text-white fig-extralight border-white">
             <span className="text-white/80">When</span>
             <GradientText
               colors={["#017AFF", "#FEFEFF", "#0AFF"]}
@@ -139,11 +140,11 @@ export default function Home() {
               showBorder={false}
               yoyo={false}
               direction="horizontal"
-              className="!mx-[6px] p-2 fig-medium"
+              className="!mx-[1px] p-2 fig-medium md:!mx-[6px]"
             >
               Speed
             </GradientText>
-            <span className="mr-3 text-white/80">meets</span>
+            <span className="mr-2 md:mr-3 text-white/80">meets</span>
             <DecryptedText
               text="Security"
               animateOn="view"
@@ -154,13 +155,14 @@ export default function Home() {
               useOriginalCharsOnly={false}
             />
           </div>
-          <div className=" rounded-lg backdrop-blur-lg bg-black/30 border-white shadow-lg w-full h-3/4 px-6 py-4 ">
+
+          <div className="text-sm md:text-base rounded-lg backdrop-blur-lg bg-black/30 border-white shadow-lg w-full h-3/4 px-6 py-4 ">
             <div className="relative flex mb-4 items-center justify-between bg-white/5 rounded-full p-1">
               {/* slider */}
               <div
                 className={`absolute top-1 left-1 h-[calc(100%-0.5rem)] w-1/2 rounded-full 
-    bg-blue-500/15 border border-blue-500/40 transition-transform duration-300 ease-in-out
-    ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
+bg-blue-500/15 border border-blue-500/40 transition-transform duration-300 ease-in-out
+${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
               />
 
               <button
@@ -227,7 +229,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="w-full py-4 flex items-center justify-center text-center text-sm text-white/50 absolute bottom-0">
+      <footer className="w-full border-white py-4 mb-10 flex items-center justify-center text-center text-sm text-white/50 absolute bottom-2 md:mb-0 md:bottom-0 md:border-0">
         Made with{" "}
         <GradientText
           colors={["#d9262f", "#7c0315"]}

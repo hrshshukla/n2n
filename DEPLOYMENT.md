@@ -46,45 +46,6 @@ To deploy with Docker:
 
 This will build and start both the backend and frontend services. The frontend will be available at http://localhost:3000 and the backend at http://localhost:8080.
 
-### Option 3: Cloud Deployment
-
-#### Backend Deployment
-
-##### Heroku (Easiest)
-
-We've already created a `Procfile` for Heroku deployment. To deploy:
-
-1. Create a Heroku app and deploy:
-   ```bash
-   heroku create n2n-backend
-   git push heroku main
-   ```
-
-##### Railway
-
-1. Connect your GitHub repository to Railway
-2. Add a new service using the Java template
-3. Set the build command: `mvn clean package`
-4. Set the start command: `java -jar target/n2n-1.0-SNAPSHOT.jar`
-
-#### Frontend Deployment
-
-##### Vercel (Optimized for Next.js)
-
-1. Connect your GitHub repository to Vercel
-2. Set the root directory to `ui`
-3. Vercel will automatically detect Next.js and deploy it
-
-##### Netlify
-
-1. Build the frontend:
-
-   ```bash
-   cd ui && npm run build
-   ```
-
-2. Deploy the `ui/out` directory to Netlify
-
 ### Option 4: Virtual Private Server (VPS)
 
 For complete control, deploy to a VPS like DigitalOcean, Linode, or AWS EC2. We've created helper files to make this process easier:

@@ -27,13 +27,13 @@ public class UploadHandler implements HttpHandler {
 
     // Allowed file extensions and MIME types (security whitelist)
     private static final String[] ALLOWED_EXTENSIONS = {
-        ".txt", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".zip", ".doc", ".docx", ".csv"
+        ".txt", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".zip", ".doc", ".docx", ".csv", ".mp4"
     };
     private static final String[] ALLOWED_MIME_TYPES = {
         "text/plain", "application/pdf", "image/jpeg", "image/png", "image/gif",
         "application/zip", "application/x-zip-compressed", "application/x-zip", "application/octet-stream",
         "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/csv"
+        "text/csv", "video/mp4"
     };
 
     // This map keeps track of each IP's upload info
@@ -213,7 +213,7 @@ public class UploadHandler implements HttpHandler {
             
             // Check 4: Validate file extension (block executables and malicious files)
             if (!isAllowedExtension(filename)) {
-                String response = "File type not allowed. Allowed extensions: .txt, .pdf, .jpg, .jpeg, .png, .gif, .zip, .doc, .docx, .csv";
+                String response = "File type not allowed. Allowed extensions: .txt, .pdf, .jpg, .jpeg, .png, .gif, .zip, .doc, .docx, .csv, .mp4";
                 exchange.sendResponseHeaders(415, response.getBytes().length); // 415 Unsupported Media Type
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes());
