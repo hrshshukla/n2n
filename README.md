@@ -386,3 +386,154 @@ File Transfer
 
 
 **⭐ If you find this project useful, please consider giving it a star!**
+
+```
+n2n
+├─ DEPLOYMENT.md
+├─ Dockerfile.backend
+├─ Dockerfile.frontend
+├─ PREREQUISITE.md
+├─ README.md
+├─ docker-compose.yml
+├─ nginx.conf.example
+├─ pom.xml
+├─ src
+│  ├─ main
+│  │  └─ java
+│  │     └─ org
+│  │        └─ harsh
+│  │           ├─ App.java
+│  │           ├─ controller
+│  │           │  └─ FileController.java
+│  │           ├─ handler
+│  │           │  ├─ CORSHandler.java
+│  │           │  ├─ DownloadHandler.java
+│  │           │  └─ UploadHandler.java
+│  │           ├─ service
+│  │           │  └─ FileSharer.java
+│  │           └─ utils
+│  │              ├─ MultiParser.java
+│  │              └─ UploadUtils.java
+│  └─ test
+│     └─ java
+│        └─ org
+│           └─ harsh
+│              └─ AppTest.java
+├─ start.bat
+├─ start.sh
+├─ ui
+│  ├─ .next
+│  │  ├─ app-build-manifest.json
+│  │  ├─ build-manifest.json
+│  │  ├─ cache
+│  │  │  ├─ images
+│  │  │  │  └─ fEpuWxZg6Y0CpnB8u9sHzixbGiEl9u7uXlboICt6kM0=
+│  │  │  │     └─ 60.1769928284981.02vAkXLhLfxeFp3ZIxE4G1kGU6TiYoHkz-YzE84mUpw=.webp
+│  │  │  ├─ swc
+│  │  │  │  └─ plugins
+│  │  │  │     └─ v7_linux_x86_64_0.106.15
+│  │  │  └─ webpack
+│  │  │     ├─ client-development
+│  │  │     │  ├─ 0.pack.gz
+│  │  │     │  └─ index.pack.gz.old
+│  │  │     ├─ client-development-fallback
+│  │  │     │  ├─ 0.pack.gz
+│  │  │     │  ├─ 1.pack.gz
+│  │  │     │  ├─ 2.pack.gz
+│  │  │     │  ├─ index.pack.gz
+│  │  │     │  └─ index.pack.gz.old
+│  │  │     └─ server-development
+│  │  │        ├─ 0.pack.gz
+│  │  │        └─ index.pack.gz.old
+│  │  ├─ fallback-build-manifest.json
+│  │  ├─ package.json
+│  │  ├─ react-loadable-manifest.json
+│  │  ├─ server
+│  │  │  ├─ _error.js
+│  │  │  ├─ app
+│  │  │  │  ├─ favicon.ico
+│  │  │  │  │  └─ route.js
+│  │  │  │  ├─ page.js
+│  │  │  │  └─ page_client-reference-manifest.js
+│  │  │  ├─ app-paths-manifest.json
+│  │  │  ├─ pages
+│  │  │  │  ├─ _app.js
+│  │  │  │  ├─ _document.js
+│  │  │  │  └─ _error.js
+│  │  │  ├─ pages-manifest.json
+│  │  │  ├─ server-reference-manifest.js
+│  │  │  ├─ server-reference-manifest.json
+│  │  │  ├─ vendor-chunks
+│  │  │  │  ├─ @swc.js
+│  │  │  │  ├─ asynckit.js
+│  │  │  └─ webpack-runtime.js
+│  │  ├─ static
+│  │  │  ├─ chunks
+│  │  │  │  ├─ _error.js
+│  │  │  │  ├─ app
+│  │  │  │  │  ├─ layout.js
+│  │  │  │  │  └─ page.js
+│  │  │  │  ├─ app-pages-internals.js
+│  │  │  │  ├─ fallback
+│  │  │  │  │  ├─ amp.js
+│  │  │  │  │  ├─ main.js
+│  │  │  │  │  ├─ pages
+│  │  │  │  │  │  ├─ _app.js
+│  │  │  │  │  │  └─ _error.js
+│  │  │  │  │  ├─ react-refresh.js
+│  │  │  │  │  └─ webpack.js
+│  │  │  │  ├─ main-app.js
+│  │  │  │  ├─ main.js
+│  │  │  │  ├─ pages
+│  │  │  │  │  ├─ _app.js
+│  │  │  │  │  └─ _error.js
+│  │  │  │  ├─ polyfills.js
+│  │  │  │  ├─ react-refresh.js
+│  │  │  │  └─ webpack.js
+│  │  │  ├─ css
+│  │  │  │  └─ app
+│  │  │  │     └─ layout.css
+│  │  │  ├─ development
+│  │  │  │  ├─ _buildManifest.js
+│  │  │  │  └─ _ssgManifest.js
+│  │  │  ├─ media
+│  │  │  
+│  │  ├─ trace
+│  │  └─ types
+│  │     ├─ app
+│  │     │  ├─ layout.ts
+│  │     │  └─ page.ts
+│  │     └─ package.json
+│  ├─ components.json
+│  ├─ next-env.d.ts
+│  ├─ next.config.js
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ postcss.config.js
+│  ├─ src
+│  │  ├─ app
+│  │  │  ├─ favicon.ico
+│  │  │  ├─ globals.css
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ assets
+│  │  │  ├─ fonts
+│  │  │  │  └─ Figtree-SemiBoldItalic.ttf
+│  │  │  └─ images
+│  │  │     └─ Picsart_26-01-22_21-26-32-317.png
+│  │  ├─ components
+│  │  │  ├─ DecryptedText.tsx
+│  │  │  ├─ FileDownload.tsx
+│  │  │  ├─ FileUpload.tsx
+│  │  │  ├─ GradientText.tsx
+│  │  │  ├─ InviteCode.tsx
+│  │  │  ├─ Lightning.tsx
+│  │  │  ├─ Navbar.tsx
+│  │  │  └─ ShinyText.tsx
+│  │  └─ lib
+│  │     └─ utils.ts
+│  ├─ tailwind.config.js
+│  └─ tsconfig.json
+└─ vps-setup.sh
+
+```

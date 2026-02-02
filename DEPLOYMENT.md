@@ -62,23 +62,16 @@ For complete control, deploy to a VPS like DigitalOcean, Linode, or AWS EC2. We'
    chmod +x vps-setup.sh
    ./vps-setup.sh
    ```
-4. Follow the prompts and instructions during the setup process
 
 #### Manual Setup
 
-If you prefer to set up manually:
-
-1. SSH into your server
-2. Install Java, Node.js, Nginx, and PM2
-3. Clone your repository
-4. Build both applications:
 
    ```bash
    mvn clean package
    cd ui && npm install && npm run build
    ```
 
-5. Use a process manager like PM2:
+1. Use a process manager like PM2:
 
    ```bash
    # For the backend
@@ -107,7 +100,7 @@ If you prefer to set up manually:
       pm2 restart n2n-frontend
    ```
 
-6. Set up Nginx as a reverse proxy using the provided `nginx.conf.example` as a template:
+2. Set up Nginx as a reverse proxy using the provided `nginx.conf.example` as a template:
    
    ```bash
    sudo cp nginx.conf.example /etc/nginx/sites-available/n2n
@@ -124,44 +117,88 @@ If you prefer to set up manually:
    sudo certbot --nginx -d yourdomain.com
    ```
 
-## Important Considerations for n2n Applications
 
-Since Node 2 Node is a n2n application that uses dynamic ports for file sharing:
+### Pull Changes 
 
-1. **Port Forwarding**: For internet-wide n2n functionality, configure port forwarding on your router for the dynamic port range (49152-65535)
+### ✅ **Frontend (UI) update ka correct process**
 
-2. **Firewall Configuration**: Ensure your firewall allows connections on these ports
 
-3. **NAT Traversal**: Consider implementing STUN/TURN servers for NAT traversal if deploying for wide-scale use
+##### (0) UI folder me jao aur latest code pull karo
 
-4. **Security**: For production deployment, implement:
-   - HTTPS for the frontend and API
-   - Authentication system
-   - File encryption
-   - Rate limiting
+```bash
+cd ~/n2n/ui
+git pull origin main
+```
 
-## Recommended Approach for Beginners
+##### (1) Frontend process ko poori tarah hatao
 
-For the easiest deployment:
+```bash
+pm2 delete n2n-frontend
+```
 
-1. **Backend**: Deploy to Railway or Heroku
-2. **Frontend**: Deploy to Vercel
 
-This combination provides:
+---
 
-- Zero server configuration
-- Automatic HTTPS
-- Easy scaling
-- Free tier options for testing
+##### (2) Purana build & node_modules nuke karo
 
-## Monitoring and Scaling
+```bash
+rm -rf .next node_modules package-lock.json
+```
 
-Once deployed, consider:
+---
 
-1. Adding application monitoring with tools like New Relic or Datadog
-2. Setting up logging with ELK stack or a cloud logging service
-3. Implementing a database for user accounts and file metadata
-4. Adding a CDN for improved performance
+##### (3) Fresh install
 
-Remember that the current implementation is designed for demonstration purposes. For a production-ready n2n file sharing service, additional work on security, scalability, and reliability would be necessary.
-````
+```bash
+npm install
+```
+
+Verify:
+
+```bash
+ls node_modules/.bin/next
+```
+
+👉 agar ye dikha → OK
+
+---
+
+##### (4) **MANDATORY BUILD**
+
+```bash
+npm run build
+```
+
+⚠️ Ye step skip kiya = PM2 error guaranteed
+
+---
+
+##### (5) Frontend ko PM2 se **production mode** me start karo
+
+```bash
+pm2 start npm --name n2n-frontend -- start
+```
+
+---
+
+##### (6) Check
+
+```bash
+pm2 list
+```
+
+✅ Expected:
+
+```
+n2n-backend   online
+n2n-frontend  online
+```
+
+---
+
+##### (7) Save (VERY IMPORTANT)
+
+```bash
+pm2 save
+```
+
