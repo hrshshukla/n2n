@@ -9,7 +9,7 @@ import Lightning from "@/components/Lightning";
 import Navbar from "@/components/Navbar";
 import GradientText from "@/components/GradientText";
 import DecryptedText from "@/components/DecryptedText";
-import { DownloadCloud, Upload, UploadCloud } from "lucide-react";
+import { DownloadCloud, UploadCloud } from "lucide-react";
 
 export default function Home() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
@@ -19,17 +19,18 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"upload" | "download">("upload");
 
+  // NEW: download error state
+  const [downloadError, setDownloadError] = useState<string>("");
+
   const handleFileUpload = async (file: File) => {
     setUploadedFile(file);
     setIsUploading(true);
-
     try {
       const formData = new FormData();
       formData.append("file", file);
 
-      // Increase timeout for large files (5 minutes)
       const response = await axios.post("/api/upload", formData, {
-        timeout: 300000, // 5 minutes in milliseconds
+        timeout: 300000,
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
             const percentCompleted = Math.round(
@@ -41,14 +42,11 @@ export default function Home() {
       });
 
       setPort(response.data.port);
-      setToken(response.data.token); // Store the access token
+      setToken(response.data.token);
     } catch (error: any) {
       console.error("Error uploading file:", error);
-
-      // Show the actual error message from the server
       let errorMessage = "Failed to upload file. Please try again.";
       if (error.response?.data) {
-        // If the server sent a text error message
         if (typeof error.response.data === "string") {
           errorMessage = error.response.data;
         } else if (error.response.data.message) {
@@ -57,9 +55,7 @@ export default function Home() {
       } else if (error.message) {
         errorMessage = error.message;
       }
-
       alert(errorMessage);
-      // If upload failed, clear selected file so user can try again
       setUploadedFile(null);
     } finally {
       setIsUploading(false);
@@ -68,9 +64,10 @@ export default function Home() {
 
   const handleDownload = async (port: number, downloadToken?: string) => {
     setIsDownloading(true);
+    // clear previous download error when a new attempt starts
+    setDownloadError("");
 
     try {
-      // Request download from Java backend with token
       const response = await axios.get(
         `/api/download/${port}?token=${downloadToken || ""}`,
         {
@@ -82,11 +79,9 @@ export default function Home() {
       const link = document.createElement("a");
       link.href = url;
 
-      // Try to get filename from response headers
       const headers = response.headers;
       let contentDisposition = "";
 
-      // Look for content-disposition header regardless of case
       for (const key in headers) {
         if (key.toLowerCase() === "content-disposition") {
           contentDisposition = headers[key];
@@ -109,7 +104,7 @@ export default function Home() {
       link.remove();
     } catch (error) {
       console.error("Error downloading file:", error);
-      alert(
+      setDownloadError(
         "Failed to download file. Please check the invite code and try again.",
       );
     } finally {
@@ -118,24 +113,25 @@ export default function Home() {
   };
 
   const handleCancelInviteUI = () => {
-    // clear local UI state only (so user can upload again)
     setUploadedFile(null);
     setToken(null);
     setPort(null);
+    setDownloadError("");
   };
 
   return (
     <div className="container h-screen w-screen relative bg-black pt-5 md:pt-0">
       <Navbar />
-
-      {/* Mobile */}
-      <div className="block md:hidden">
-        <Lightning hue={228} xOffset={1} speed={0.5} intensity={1} size={6} />
+    
+{/*       
+      <div className="mobile block md:hidden">
+        <Lightning hue={228} xOffset={1} speed={0.5} intensity={1} size={6}/>
       </div>
 
-      <div className="hidden md:block">
-        <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1} />
-      </div>
+      
+      <div className="pc hidden md:block">
+        <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1}/>
+      </div> */}
 
       <div className="container mx-auto flex rounded-lg justify-center w-full h-full md:pt-10 md:border-white md:items-center md:w-1/2">
         <div className="wrapper h-[75%] w-full border-white flex-col md:mt-5">
@@ -165,7 +161,6 @@ export default function Home() {
 
           <div className="text-sm md:text-base rounded-lg backdrop-blur-lg bg-black/30 border-white shadow-lg w-full h-3/4 px-6 py-4 ">
             <div className="relative flex mb-4 items-center justify-between bg-white/5 rounded-full p-1">
-              {/* slider */}
               <div
                 className={`absolute top-1 left-1 h-[calc(100%-0.5rem)] w-1/2 rounded-full 
 bg-blue-500/15 border border-blue-500/40 transition-transform duration-300 ease-in-out
@@ -199,14 +194,12 @@ ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
 
             {activeTab === "upload" ? (
               <div className=" h-[80%] ">
-                {/* Show upload box only when no file selected */}
                 {!uploadedFile ? (
                   <FileUpload
                     onFileUpload={handleFileUpload}
                     isUploading={isUploading}
                   />
                 ) : (
-                  // Show InviteCode when a file has been selected/uploaded.
                   <InviteCode
                     port={port}
                     token={token}
@@ -223,6 +216,9 @@ ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
                   <FileDownload
                     onDownload={handleDownload}
                     isDownloading={isDownloading}
+                    // pass the download error and clear handler
+                    downloadError={downloadError}
+                    clearDownloadError={() => setDownloadError("")}
                   />
                 ) : (
                   <div className=" text-center  ">
@@ -235,7 +231,6 @@ ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
           </div>
         </div>
       </div>
-
       <footer className="w-full border-white py-4 mb-10 flex items-center justify-center text-center text-sm text-white/50 absolute bottom-2 md:mb-0 md:bottom-0 md:border-0">
         Made with{" "}
         <GradientText
