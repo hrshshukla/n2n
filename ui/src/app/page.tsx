@@ -71,10 +71,12 @@ export default function Home() {
 
     try {
       // Request download from Java backend with token
-      const response = await axios.get(`/api/download/${port}`, {
-        params: { token: downloadToken || "" },
-        responseType: "blob",
-      });
+      const response = await axios.get(
+        `/api/download/${port}?token=${downloadToken || ""}`,
+        {
+          responseType: "blob",
+        },
+      );
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement("a");
