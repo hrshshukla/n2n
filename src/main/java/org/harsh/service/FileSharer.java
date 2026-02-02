@@ -101,10 +101,10 @@ public class FileSharer {
             return;
         }
         try (ServerSocket serverSocket = new ServerSocket(port)){
-            serverSocket.setSoTimeout(50000); // 50 seconds timeout for accept()
+            serverSocket.setSoTimeout(120000); // 2 min timeout for accept()
             System.out.println("Serving File" + new File(filePath).getName() + "on port " + port);
             Socket clientScoket = serverSocket.accept();
-            clientScoket.setSoTimeout(50000); // 50 seconds timeout for client socket
+            clientScoket.setSoTimeout(120000); // 2 min timeout for client socket
             System.out.println("Client connection: "+clientScoket.getInetAddress());
             new Thread(new FileSenderHandler(clientScoket,filePath)).start();
         }catch (IOException e){
@@ -124,7 +124,7 @@ public class FileSharer {
         @Override
         public void run() {
             try {
-                clientSocket.setSoTimeout(30000); // 30 seconds timeout for client socket
+                clientSocket.setSoTimeout(120000); // 2 min timeout for client socket
                 try(FileInputStream fis = new FileInputStream(filePath)) {
                     OutputStream oos = clientSocket.getOutputStream();
                     String fileName = new File(filePath).getName();

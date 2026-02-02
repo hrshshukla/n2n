@@ -117,10 +117,6 @@ export default function FileDownload({
         </button>
       </form>
 
-      {/* Footer hint */}
-      <p className="mt-3 text-xs text-white/40">
-        Make sure the sender’s device is online while downloading.
-      </p>
     </div>
   );
 }

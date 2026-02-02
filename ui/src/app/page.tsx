@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import FileUpload from "@/components/FileUpload";
 import FileDownload from "@/components/FileDownload";
 import InviteCode from "@/components/InviteCode";
@@ -9,6 +9,7 @@ import Lightning from "@/components/Lightning";
 import Navbar from "@/components/Navbar";
 import GradientText from "@/components/GradientText";
 import DecryptedText from "@/components/DecryptedText";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { DownloadCloud, UploadCloud } from "lucide-react";
 
 export default function Home() {
@@ -19,8 +20,12 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"upload" | "download">("upload");
 
-  // NEW: download error state
   const [downloadError, setDownloadError] = useState<string>("");
+
+  // NEW: expiry timestamp for the invite UI (ms since epoch)
+  const [inviteExpiresAt, setInviteExpiresAt] = useState<number | null>(null);
+  const inviteTimerRef = useRef<number | null>(null);
+  const INVITE_TIMEOUT_MS = 120000; // 2 minutes
 
   const handleFileUpload = async (file: File) => {
     setUploadedFile(file);
@@ -43,6 +48,20 @@ export default function Home() {
 
       setPort(response.data.port);
       setToken(response.data.token);
+
+      // NEW: set expiry timestamp and start/replace the timeout
+      const expiry = Date.now() + INVITE_TIMEOUT_MS;
+      setInviteExpiresAt(expiry);
+
+      // clear any existing timer
+      if (inviteTimerRef.current) {
+        clearTimeout(inviteTimerRef.current);
+        inviteTimerRef.current = null;
+      }
+      inviteTimerRef.current = window.setTimeout(() => {
+        // when timer ends, hide invite UI and show upload box
+        handleCancelInviteUI();
+      }, INVITE_TIMEOUT_MS);
     } catch (error: any) {
       console.error("Error uploading file:", error);
       let errorMessage = "Failed to upload file. Please try again.";
@@ -64,7 +83,6 @@ export default function Home() {
 
   const handleDownload = async (port: number, downloadToken?: string) => {
     setIsDownloading(true);
-    // clear previous download error when a new attempt starts
     setDownloadError("");
 
     try {
@@ -112,31 +130,38 @@ export default function Home() {
     }
   };
 
+  // Cancel invite UI and clear state; also clear any running invite timer
   const handleCancelInviteUI = () => {
+    if (inviteTimerRef.current) {
+      clearTimeout(inviteTimerRef.current);
+      inviteTimerRef.current = null;
+    }
     setUploadedFile(null);
     setToken(null);
     setPort(null);
+    setInviteExpiresAt(null); // NEW: clear expiry
     setDownloadError("");
   };
+
+  // cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (inviteTimerRef.current) {
+        clearTimeout(inviteTimerRef.current);
+        inviteTimerRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <div className="container h-screen w-screen relative bg-black pt-5 md:pt-0">
       <Navbar />
-    
-{/*       
-      <div className="mobile block md:hidden">
-        <Lightning hue={228} xOffset={1} speed={0.5} intensity={1} size={6}/>
-      </div>
-
-      
-      <div className="pc hidden md:block">
-        <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1}/>
-      </div> */}
 
       <div className="container mx-auto flex rounded-lg justify-center w-full h-full md:pt-10 md:border-white md:items-center md:w-1/2">
         <div className="wrapper h-[75%] w-full border-white flex-col md:mt-5">
           <div className="Heading h-1/4 backdrop-blur-0 text-2xl md:text-5xl flex justify-center items-center text-white fig-extralight border-white">
             <span className="text-white/80">When</span>
+
             <GradientText
               colors={["#017AFF", "#FEFEFF", "#0AFF"]}
               animationSpeed={0.4}
@@ -207,6 +232,7 @@ ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
                     filesize={uploadedFile.size}
                     isUploading={isUploading}
                     onCancel={handleCancelInviteUI}
+                    expiryTimestamp={inviteExpiresAt} // NEW prop
                   />
                 )}
               </div>
@@ -216,7 +242,6 @@ ${activeTab === "download" ? "translate-x-full" : "translate-x-0"}`}
                   <FileDownload
                     onDownload={handleDownload}
                     isDownloading={isDownloading}
-                    // pass the download error and clear handler
                     downloadError={downloadError}
                     clearDownloadError={() => setDownloadError("")}
                   />
