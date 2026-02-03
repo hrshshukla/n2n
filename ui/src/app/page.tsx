@@ -156,6 +156,15 @@ export default function Home() {
     <div className="container h-screen w-screen relative bg-black pt-5 md:pt-0">
       <Navbar />
 
+      <div className="mobile block md:hidden">
+        <Lightning hue={228} xOffset={1} speed={0.5} intensity={1} size={6}/>
+      </div>
+
+      
+      <div className="pc hidden md:block">
+        <Lightning hue={228} xOffset={-1} speed={0.5} intensity={1} size={1}/>
+      </div> 
+
       <div className="container mx-auto flex rounded-lg justify-center w-full h-full md:pt-10 md:border-white md:items-center md:w-1/2">
         <div className="wrapper h-[75%] w-full border-white flex-col md:mt-5">
           <div className="Heading h-1/4 backdrop-blur-0 text-2xl md:text-5xl flex justify-center items-center text-white fig-extralight border-white">
