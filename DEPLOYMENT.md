@@ -128,24 +128,6 @@ For complete control, deploy to a VPS like DigitalOcean, Linode, or AWS EC2. We'
 cd ~/n2n   OR    cd ~/n2n/ui
 git pull 
 ```
-#### (2) 
-
-```bash
-cd ~/n2n   OR    cd ~/n2n/ui
-git pull 
-```
-
-
-
-
-### If any encoounter any error then try this 
-##### (0) UI folder me jao aur latest code pull karo
-
-```bash
-cd ~/n2n/ui
-git pull origin main
-```
-
 
 ##### (2) install packages 
 
@@ -170,6 +152,8 @@ pm2 restart n2n-frontend
 
 
 ---
+
+### If any error 
 
 ##### (2) Purana build & node_modules nuke karo
 
@@ -230,69 +214,123 @@ n2n-frontend  online
 pm2 save
 ```
 
-### ✅ **Backend (Server) update ka correct process**
+#### ✅ **Backend (Server) update ka correct process**
 
-#### 1️⃣ Project folder me jao
+##### (1) n2n folder ke andar jao & latest code pull karo
 
 ```bash
 cd ~/n2n
-```
-
-#### 2️⃣ Latest code pull karo
-
-```bash
 git pull
 ```
 
-#### 3️⃣ Backend rebuild karo (VERY IMPORTANT)
+---
+
+##### (2) Backend ko rebuild karo (**MANDATORY**)
 
 ```bash
 mvn clean package
 ```
 
-👉 Isse **new JAR** banega:
+👉 Isse **latest shaded JAR** banega:
 
 ```
 target/n2n-1.0-SNAPSHOT-shaded.jar
 ```
 
-#### 4️⃣ Backend ko PM2 se restart karo
+---
+
+##### (3) Backend ko PM2 se restart karo
 
 ```bash
 pm2 restart n2n-backend
 ```
 
-#### 5️⃣ Verify
+---
+
+##### (4) Check status
 
 ```bash
 pm2 list
 ```
 
-Expected:
+✅ Expected:
 
 ```
 n2n-backend   online
+n2n-frontend  online
 ```
 
-Logs dekhna ho:
+---
+
+##### (5) Logs check (agar doubt ho)
 
 ```bash
 pm2 logs n2n-backend --lines 20
 ```
 
+---
 
-### 🟡 OPTIONAL (zero-downtime style)
+##### (6) Save (VERY IMPORTANT)
 
 ```bash
-pm2 reload n2n-backend
+pm2 save
 ```
 
+---
+
+---
+
+### ❌ If any error (Backend fix flow)
+
+#### (1) Backend process hatao
+
+```bash
+pm2 delete n2n-backend
 ```
-GitHub (new code)
-   ↓ git pull
-Local code updated
-   ↓ mvn clean package
-New JAR built
-   ↓ pm2 restart
-New backend live 🚀
+
+---
+
+#### (2) Purana build clean karo
+
+```bash
+cd ~/n2n
+mvn clean
+```
+
+(Optional but safe)
+
+```bash
+rm -rf target
+```
+
+---
+
+#### (3) Fresh build
+
+```bash
+mvn clean package
+```
+
+---
+
+#### (4) Backend ko PM2 se **fresh start** karo
+
+```bash
+pm2 start java --name n2n-backend --cwd target -- -jar n2n-1.0-SNAPSHOT-shaded.jar
+```
+
+---
+
+#### (5) Check
+
+```bash
+pm2 list
+```
+
+---
+
+#### (6) Save (VERY IMPORTANT)
+
+```bash
+pm2 save
 ```
