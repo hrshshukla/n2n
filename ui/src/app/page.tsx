@@ -22,7 +22,6 @@ export default function Home() {
 
   const [downloadError, setDownloadError] = useState<string>("");
 
-  // NEW: expiry timestamp for the invite UI (ms since epoch)
   const [inviteExpiresAt, setInviteExpiresAt] = useState<number | null>(null);
   const inviteTimerRef = useRef<number | null>(null);
   const INVITE_TIMEOUT_MS = 120000; // 2 minutes

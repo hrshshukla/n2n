@@ -1,6 +1,6 @@
 "use client";
 
-import { FileIcon, ImageIcon } from "lucide-react";
+import { FileIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FiCopy, FiCheck, FiX } from "react-icons/fi";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
@@ -12,7 +12,7 @@ interface InviteCodeProps {
   filesize?: number | null;
   isUploading?: boolean;
   onCancel?: () => void;
-  expiryTimestamp?: number | null; // ms since epoch
+  expiryTimestamp?: number | null; // ms since epoch (from parent)
 }
 
 export default function InviteCode({
@@ -29,7 +29,7 @@ export default function InviteCode({
 
   const TOTAL_DURATION = 120; // seconds
 
-  // compute remaining seconds from expiryTimestamp (so remounts don't reset)
+  // calc remaining from expiryTimestamp; if expiryTimestamp absent, return TOTAL_DURATION
   const calcRemaining = () =>
     expiryTimestamp ? Math.max(0, Math.ceil((expiryTimestamp - Date.now()) / 1000)) : TOTAL_DURATION;
 
@@ -39,7 +39,7 @@ export default function InviteCode({
     // whenever expiryTimestamp changes, recalc immediately
     setRemaining(calcRemaining());
 
-    // update every second
+    // if no expiryTimestamp, we don't need to tick; but keep updating so UI shows correct remaining as soon as expiryTimestamp appears
     const id = setInterval(() => {
       setRemaining(calcRemaining());
     }, 1000);
@@ -47,15 +47,7 @@ export default function InviteCode({
     return () => clearInterval(id);
   }, [expiryTimestamp]);
 
-  // optional: when timer hits 0, notify parent (parent already clears UI via timeout, but this is safe)
-  useEffect(() => {
-    if (remaining <= 0) {
-      // small delay so parent can handle cleanup first
-      // we don't forcibly call onCancel here to avoid double-calls, but you can if you want:
-      // onCancel && onCancel();
-    }
-  }, [remaining, onCancel]);
-
+  // copy token
   const copyTokenToClipboard = () => {
     if (!token) return;
     navigator.clipboard.writeText(token);
@@ -90,22 +82,31 @@ export default function InviteCode({
         )}
 
         <div className="timer ml-3">
-          <CountdownCircleTimer
-            isPlaying={remaining > 0}
-            trailColor="#141415"
-            duration={TOTAL_DURATION}
-            initialRemainingTime={remaining} // <-- important: start from remaining seconds
-            colors="#1e3761"
-            strokeWidth={3}
-            size={40}
-            key={expiryTimestamp ?? "no-expiry"} // force re-init only when expiryTimestamp changes
-          >
-            {() => (
-              <span className="text-white/40 fig-medium">
-                {remaining}
-              </span>
-            )}
-          </CountdownCircleTimer>
+          {/* ONLY render & start the countdown when token AND expiryTimestamp are available.
+              If not available yet, show a neutral placeholder (or nothing). */}
+          {token && expiryTimestamp ? (
+            <CountdownCircleTimer
+              isPlaying={remaining > 0}
+              trailColor="#141415"
+              duration={TOTAL_DURATION}
+              initialRemainingTime={remaining}
+              colors="#1e3761"
+              strokeWidth={3}
+              size={40}
+              key={expiryTimestamp ?? "no-expiry"}
+            >
+              {() => (
+                <span className="text-white/40 fig-medium">
+                  {remaining}
+                </span>
+              )}
+            </CountdownCircleTimer>
+          ) : (
+            // placeholder while generating token / uploading
+            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-white/3">
+              <span className="text-white/30 text-sm">--</span>
+            </div>
+          )}
         </div>
 
         {!isUploading && (
