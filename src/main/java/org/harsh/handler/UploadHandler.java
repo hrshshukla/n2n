@@ -130,7 +130,6 @@ public class UploadHandler implements HttpHandler {
         }
 
         Headers requestHeaders = exchange.getRequestHeaders();
-        // ...existing code...
         String contentType = null;
         for (String key : requestHeaders.keySet()) {
             if (key != null && key.equalsIgnoreCase("Content-Type")) {

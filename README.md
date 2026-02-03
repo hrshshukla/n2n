@@ -110,7 +110,7 @@ Clean, stateless API endpoints following REST principles:
 - Sliding window algorithm with automatic reset
 - HTTP 429 (Too Many Requests) response for violations
 
-### **2. File Validation**
+### **2. File Validation (Optional)**
 **Allowed Extensions**: `.txt`, `.pdf`, `.jpg`, `.jpeg`, `.png`, `.gif`, `.zip`, `.doc`, `.docx`, `.csv`
 
 **Blocked**: Executables (`.exe`, `.sh`, `.bat`), scripts (`.js`, `.php`, `.py`)

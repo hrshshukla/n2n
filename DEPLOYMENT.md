@@ -159,10 +159,6 @@ Verify:
 ls node_modules/.bin/next
 ```
 
-👉 agar ye dikha → OK
-
----
-
 ##### (4) **MANDATORY BUILD**
 
 ```bash
@@ -202,3 +198,69 @@ n2n-frontend  online
 pm2 save
 ```
 
+### ✅ **Backend (Server) update ka correct process**
+
+#### 1️⃣ Project folder me jao
+
+```bash
+cd ~/n2n
+```
+
+#### 2️⃣ Latest code pull karo
+
+```bash
+git pull
+```
+
+#### 3️⃣ Backend rebuild karo (VERY IMPORTANT)
+
+```bash
+mvn clean package
+```
+
+👉 Isse **new JAR** banega:
+
+```
+target/n2n-1.0-SNAPSHOT-shaded.jar
+```
+
+#### 4️⃣ Backend ko PM2 se restart karo
+
+```bash
+pm2 restart n2n-backend
+```
+
+#### 5️⃣ Verify
+
+```bash
+pm2 list
+```
+
+Expected:
+
+```
+n2n-backend   online
+```
+
+Logs dekhna ho:
+
+```bash
+pm2 logs n2n-backend --lines 20
+```
+
+
+### 🟡 OPTIONAL (zero-downtime style)
+
+```bash
+pm2 reload n2n-backend
+```
+
+```
+GitHub (new code)
+   ↓ git pull
+Local code updated
+   ↓ mvn clean package
+New JAR built
+   ↓ pm2 restart
+New backend live 🚀
+```
