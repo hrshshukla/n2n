@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/images/Picsart_26-01-22_21-26-32-317.png";
+import logo from "../assets/images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { GithubIcon } from "lucide-react";

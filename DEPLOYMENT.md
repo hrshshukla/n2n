@@ -122,7 +122,23 @@ For complete control, deploy to a VPS like DigitalOcean, Linode, or AWS EC2. We'
 
 ### ✅ **Frontend (UI) update ka correct process**
 
+#### (1) get inside n2n or n2n/ui and 
 
+```bash
+cd ~/n2n   OR    cd ~/n2n/ui
+git pull 
+```
+#### (2) 
+
+```bash
+cd ~/n2n   OR    cd ~/n2n/ui
+git pull 
+```
+
+
+
+
+### If any encoounter any error then try this 
 ##### (0) UI folder me jao aur latest code pull karo
 
 ```bash
@@ -130,11 +146,27 @@ cd ~/n2n/ui
 git pull origin main
 ```
 
-##### (1) Frontend process ko poori tarah hatao
+
+##### (2) install packages 
 
 ```bash
-pm2 delete n2n-frontend
+npm install
 ```
+
+
+##### (3) **MANDATORY BUILD**
+
+```bash
+npm run build
+```
+
+
+##### (4) Frontend ko PM2 se **production mode** me restart start karo
+
+```bash
+pm2 restart n2n-frontend 
+```
+
 
 
 ---

@@ -2,25 +2,31 @@
 
 A modern, secure node-2-node file sharing application built with Java (backend) and Next.js (frontend). Share files directly between users with PIN-based authentication and enterprise-grade security features.
 
-![Java](https://img.shields.io/badge/Java-17-orange?style=flat)
-![NextJS](https://img.shields.io/badge/Next.js-14-black?style=flat)
-![Maven](https://img.shields.io/badge/Maven-3.9-red?style=flat)
-![License](https://img.shields.io/badge/License-MIT-blue?style=flat)
 
----
+<div align="center">
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" height="30" alt="java logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/Next.js-000000?logo=nextdotjs&logoColor=white&style=for-the-badge" height="30" alt="nextjs logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white&style=for-the-badge" height="30" alt="typescript logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black&style=for-the-badge" height="30" alt="react logo"  />
 
-## 📋 Table of Contents
+  <img width="12" />
+  <img src="https://img.shields.io/badge/Node.js-339933?logo=nodedotjs&logoColor=white&style=for-the-badge" height="30" alt="nodejs logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?logo=tailwindcss&logoColor=black&style=for-the-badge" height="30" alt="tailwindcss logo"  />
 
-- [Features](#-features)
-- [Architecture & Concepts](#-architecture--concepts)
-- [Technology Stack](#-technology-stack)
-- [Security Features](#-security-features)
-- [Getting Started](#-getting-started)
-- [How It Works](#-how-it-works)
-- [Project Structure](#-project-structure)
-- [API Documentation](#-api-documentation)
-- [Contributing](#-contributing)
-- [License](#-license)
+  <img width="12" />
+  <img src="https://img.shields.io/badge/Apache Maven-C71A36?logo=apachemaven&logoColor=white&style=for-the-badge" height="30" alt="apachemaven logo"  />
+  <img width="12" />
+  <img src="https://skillicons.dev/icons?i=aws" height="30" alt="amazonwebservices logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/NGINX-009639?logo=nginx&logoColor=white&style=for-the-badge" height="30" alt="nginx logo"  />
+  <img width="12" />
+  <img src="https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=for-the-badge" height="30" alt="git logo"  />
+</div>
 
 ---
 
@@ -223,33 +229,71 @@ if (port == null) {
 
 ## 📁 Project Structure
 
+
 ```
-n2n/
-├── src/main/java/org/harsh/
-│   ├── App.java                    # Application entry point
-│   ├── controller/
-│   │   └── FileController.java     # HTTP server & routing
-│   ├── handler/
-│   │   ├── CORSHandler.java        # CORS & 404 handling
-│   │   ├── UploadHandler.java      # File upload logic
-│   │   └── DownloadHandler.java    # File download logic
-│   ├── service/
-│   │   └── FileSharer.java         #  server & token management
-│   └── utils/
-│       ├── MultiParser.java        # Multipart form parser
-│       └── UploadUtils.java        # Port generation utility
-├── ui/
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── page.tsx            # Main page component
-│   │   │   └── globals.css         # Global styles
-│   │   └── components/
-│   │       ├── FileUpload.tsx      # Upload UI component
-│   │       ├── FileDownload.tsx    # Download UI component
-│   │       └── InviteCode.tsx      # PIN display component
-│   └── package.json
-├── pom.xml                          # Maven configuration
-└── README.md
+n2n
+├─ DEPLOYMENT.md
+├─ Dockerfile.backend
+├─ Dockerfile.frontend
+├─ PREREQUISITE.md
+├─ README.md
+├─ docker-compose.yml
+├─ nginx.txt
+├─ pom.xml
+├─ src
+│  ├─ main
+│  │  └─ java
+│  │     └─ org
+│  │        └─ harsh
+│  │           ├─ App.java
+│  │           ├─ controller
+│  │           │  └─ FileController.java
+│  │           ├─ handler
+│  │           │  ├─ CORSHandler.java
+│  │           │  ├─ DownloadHandler.java
+│  │           │  └─ UploadHandler.java
+│  │           ├─ service
+│  │           │  └─ FileSharer.java
+│  │           └─ utils
+│  │              ├─ MultiParser.java
+│  │              └─ UploadUtils.java
+│  └─ test
+│     └─ java
+│        └─ org
+│           └─ harsh
+│              └─ AppTest.java
+├─ start.bat
+├─ start.sh
+├─ ui
+│  │  ├─ package.json
+│  ├─ components.json
+│  ├─ next-env.d.ts
+│  ├─ next.config.js
+│  ├─ package-lock.json
+│  ├─ package.json
+│  ├─ postcss.config.js
+│  ├─ src
+│  │  ├─ app
+│  │  │  ├─ favicon.ico
+│  │  │  ├─ globals.css
+│  │  │  ├─ layout.tsx
+│  │  │  └─ page.tsx
+│  │  ├─ assets
+│  │  ├─ components
+│  │  │  ├─ DecryptedText.tsx
+│  │  │  ├─ FileDownload.tsx
+│  │  │  ├─ FileUpload.tsx
+│  │  │  ├─ GradientText.tsx
+│  │  │  ├─ InviteCode.tsx
+│  │  │  ├─ Lightning.tsx
+│  │  │  ├─ Navbar.tsx
+│  │  │  └─ ShinyText.tsx
+│  │  └─ lib
+│  │     └─ utils.ts
+│  ├─ tailwind.config.js
+│  └─ tsconfig.json
+└─ vps-setup.sh
+
 ```
 
 ---
@@ -373,167 +417,13 @@ User Request
 File Transfer
 ```
 
----
 
+----
 
-## 👨‍💻 Author
-
-**Harsh Shukla**
-- GitHub: [@harshshukla](https://github.com/hrshshukla)
-- LinkedIn: [Harsh Shukla](https://www.linkedin.com/in/hrsh-shukla/)
-
----
-
-
-**⭐ If you find this project useful, please consider giving it a star!**
-
-```
-n2n
-├─ DEPLOYMENT.md
-├─ Dockerfile.backend
-├─ Dockerfile.frontend
-├─ PREREQUISITE.md
-├─ README.md
-├─ docker-compose.yml
-├─ nginx.conf.example
-├─ pom.xml
-├─ src
-│  ├─ main
-│  │  └─ java
-│  │     └─ org
-│  │        └─ harsh
-│  │           ├─ App.java
-│  │           ├─ controller
-│  │           │  └─ FileController.java
-│  │           ├─ handler
-│  │           │  ├─ CORSHandler.java
-│  │           │  ├─ DownloadHandler.java
-│  │           │  └─ UploadHandler.java
-│  │           ├─ service
-│  │           │  └─ FileSharer.java
-│  │           └─ utils
-│  │              ├─ MultiParser.java
-│  │              └─ UploadUtils.java
-│  └─ test
-│     └─ java
-│        └─ org
-│           └─ harsh
-│              └─ AppTest.java
-├─ start.bat
-├─ start.sh
-├─ ui
-│  ├─ .next
-│  │  ├─ app-build-manifest.json
-│  │  ├─ build-manifest.json
-│  │  ├─ cache
-│  │  │  ├─ images
-│  │  │  │  └─ fEpuWxZg6Y0CpnB8u9sHzixbGiEl9u7uXlboICt6kM0=
-│  │  │  │     └─ 60.1769928284981.02vAkXLhLfxeFp3ZIxE4G1kGU6TiYoHkz-YzE84mUpw=.webp
-│  │  │  ├─ swc
-│  │  │  │  └─ plugins
-│  │  │  │     └─ v7_linux_x86_64_0.106.15
-│  │  │  └─ webpack
-│  │  │     ├─ client-development
-│  │  │     │  ├─ 0.pack.gz
-│  │  │     │  └─ index.pack.gz.old
-│  │  │     ├─ client-development-fallback
-│  │  │     │  ├─ 0.pack.gz
-│  │  │     │  ├─ 1.pack.gz
-│  │  │     │  ├─ 2.pack.gz
-│  │  │     │  ├─ index.pack.gz
-│  │  │     │  └─ index.pack.gz.old
-│  │  │     └─ server-development
-│  │  │        ├─ 0.pack.gz
-│  │  │        └─ index.pack.gz.old
-│  │  ├─ fallback-build-manifest.json
-│  │  ├─ package.json
-│  │  ├─ react-loadable-manifest.json
-│  │  ├─ server
-│  │  │  ├─ _error.js
-│  │  │  ├─ app
-│  │  │  │  ├─ favicon.ico
-│  │  │  │  │  └─ route.js
-│  │  │  │  ├─ page.js
-│  │  │  │  └─ page_client-reference-manifest.js
-│  │  │  ├─ app-paths-manifest.json
-│  │  │  ├─ pages
-│  │  │  │  ├─ _app.js
-│  │  │  │  ├─ _document.js
-│  │  │  │  └─ _error.js
-│  │  │  ├─ pages-manifest.json
-│  │  │  ├─ server-reference-manifest.js
-│  │  │  ├─ server-reference-manifest.json
-│  │  │  ├─ vendor-chunks
-│  │  │  │  ├─ @swc.js
-│  │  │  │  ├─ asynckit.js
-│  │  │  └─ webpack-runtime.js
-│  │  ├─ static
-│  │  │  ├─ chunks
-│  │  │  │  ├─ _error.js
-│  │  │  │  ├─ app
-│  │  │  │  │  ├─ layout.js
-│  │  │  │  │  └─ page.js
-│  │  │  │  ├─ app-pages-internals.js
-│  │  │  │  ├─ fallback
-│  │  │  │  │  ├─ amp.js
-│  │  │  │  │  ├─ main.js
-│  │  │  │  │  ├─ pages
-│  │  │  │  │  │  ├─ _app.js
-│  │  │  │  │  │  └─ _error.js
-│  │  │  │  │  ├─ react-refresh.js
-│  │  │  │  │  └─ webpack.js
-│  │  │  │  ├─ main-app.js
-│  │  │  │  ├─ main.js
-│  │  │  │  ├─ pages
-│  │  │  │  │  ├─ _app.js
-│  │  │  │  │  └─ _error.js
-│  │  │  │  ├─ polyfills.js
-│  │  │  │  ├─ react-refresh.js
-│  │  │  │  └─ webpack.js
-│  │  │  ├─ css
-│  │  │  │  └─ app
-│  │  │  │     └─ layout.css
-│  │  │  ├─ development
-│  │  │  │  ├─ _buildManifest.js
-│  │  │  │  └─ _ssgManifest.js
-│  │  │  ├─ media
-│  │  │  
-│  │  ├─ trace
-│  │  └─ types
-│  │     ├─ app
-│  │     │  ├─ layout.ts
-│  │     │  └─ page.ts
-│  │     └─ package.json
-│  ├─ components.json
-│  ├─ next-env.d.ts
-│  ├─ next.config.js
-│  ├─ package-lock.json
-│  ├─ package.json
-│  ├─ postcss.config.js
-│  ├─ src
-│  │  ├─ app
-│  │  │  ├─ favicon.ico
-│  │  │  ├─ globals.css
-│  │  │  ├─ layout.tsx
-│  │  │  └─ page.tsx
-│  │  ├─ assets
-│  │  │  ├─ fonts
-│  │  │  │  └─ Figtree-SemiBoldItalic.ttf
-│  │  │  └─ images
-│  │  │     └─ Picsart_26-01-22_21-26-32-317.png
-│  │  ├─ components
-│  │  │  ├─ DecryptedText.tsx
-│  │  │  ├─ FileDownload.tsx
-│  │  │  ├─ FileUpload.tsx
-│  │  │  ├─ GradientText.tsx
-│  │  │  ├─ InviteCode.tsx
-│  │  │  ├─ Lightning.tsx
-│  │  │  ├─ Navbar.tsx
-│  │  │  └─ ShinyText.tsx
-│  │  └─ lib
-│  │     └─ utils.ts
-│  ├─ tailwind.config.js
-│  └─ tsconfig.json
-└─ vps-setup.sh
-
-```
+-- Harsh Shukla
+<div align="center">
+<a href="https://github.com/hrshshukla" target="_blank">
+  <img src="https://skillicons.dev/icons?i=linkedin" height="40" alt="linkedin logo"  />
+   <a href="https://x.com/hrshshukla" target="_blank">
+  <img src="https://skillicons.dev/icons?i=twitter" height="40" alt="twitter logo" /></a>
+</div>
