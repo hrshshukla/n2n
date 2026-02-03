@@ -1,4 +1,3 @@
-
 package org.harsh.handler;
 
 import java.io.ByteArrayOutputStream;
@@ -25,15 +24,18 @@ public class UploadHandler implements HttpHandler {
     private static final int MAX_UPLOADS_PER_MINUTE = 10; // Maximum uploads allowed per minute
     private static final long ONE_MINUTE_MS = 60_000; // One minute in milliseconds
 
-    // Allowed file extensions and MIME types (security whitelist)
+    // Allowed file extensions and MIME types (kept for reference; not used by
+    // validators now)
+    @SuppressWarnings("unused")
     private static final String[] ALLOWED_EXTENSIONS = {
-        ".txt", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".zip", ".doc", ".docx", ".csv", ".mp4"
+            ".txt", ".pdf", ".jpg", ".jpeg", ".png", ".gif", ".zip", ".doc", ".docx", ".csv", ".mp4"
     };
+    @SuppressWarnings("unused")
     private static final String[] ALLOWED_MIME_TYPES = {
-        "text/plain", "application/pdf", "image/jpeg", "image/png", "image/gif",
-        "application/zip", "application/x-zip-compressed", "application/x-zip", "application/octet-stream",
-        "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        "text/csv", "video/mp4"
+            "text/plain", "application/pdf", "image/jpeg", "image/png", "image/gif",
+            "application/zip", "application/x-zip-compressed", "application/x-zip", "application/octet-stream",
+            "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "text/csv", "video/mp4"
     };
 
     // This map keeps track of each IP's upload info
@@ -43,7 +45,8 @@ public class UploadHandler implements HttpHandler {
     // This class stores info about uploads for one IP
     private static class UploadInfo {
         long minuteWindowStart; // When the current minute started
-        int uploadCount;        // How many uploads so far in this minute
+        int uploadCount; // How many uploads so far in this minute
+
         UploadInfo(long minuteWindowStart) {
             this.minuteWindowStart = minuteWindowStart;
             this.uploadCount = 1;
@@ -55,28 +58,41 @@ public class UploadHandler implements HttpHandler {
         this.fileSharer = fileSharer;
     }
 
-    // Helper method to check if file extension is allowed
+    // (1) allow all extensions (always return true)
     private boolean isAllowedExtension(String filename) {
-        if (filename == null) return false;
-        String lower = filename.toLowerCase();
-        for (String ext : ALLOWED_EXTENSIONS) {
-            if (lower.endsWith(ext)) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
-    // Helper method to check if MIME type is allowed
+    // (2) allow specific extensions
+    // private boolean isAllowedExtension(String filename) {
+    // if (filename == null) return false;
+    // String lower = filename.toLowerCase();
+    // for (String ext : ALLOWED_EXTENSIONS) {
+    // if (lower.endsWith(ext)) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
+
+    // -----------------------------------------------------------
+
+    // (1) allow all MIME types (always return true)
     private boolean isAllowedMimeType(String mimeType) {
-        if (mimeType == null) return false;
-        for (String allowed : ALLOWED_MIME_TYPES) {
-            if (mimeType.toLowerCase().contains(allowed.toLowerCase())) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
+
+    // (2) allow specific MIME types (always return true)
+    // private boolean isAllowedMimeType(String mimeType) {
+    //     if (mimeType == null)
+    //         return false;
+    //     for (String allowed : ALLOWED_MIME_TYPES) {
+    //         if (mimeType.toLowerCase().contains(allowed.toLowerCase())) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -158,17 +174,18 @@ public class UploadHandler implements HttpHandler {
             }
             String boundary = contentType.substring(bIdx + 9).trim();
             int scIdx = boundary.indexOf(';');
-            if (scIdx != -1) boundary = boundary.substring(0, scIdx).trim();
+            if (scIdx != -1)
+                boundary = boundary.substring(0, scIdx).trim();
             if (boundary.startsWith("\"") && boundary.endsWith("\"")) {
                 boundary = boundary.substring(1, boundary.length() - 1);
             }
-            
+
             // Check 2: Read request body with size limit (second line of defense)
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buffer = new byte[8192];
             int bytesRead;
             long totalBytesRead = 0;
-            
+
             while ((bytesRead = exchange.getRequestBody().read(buffer)) != -1) {
                 totalBytesRead += bytesRead;
                 if (totalBytesRead > MAX_FILE_SIZE) {
@@ -194,7 +211,7 @@ public class UploadHandler implements HttpHandler {
                 }
                 return;
             }
-            
+
             // Check 3: Validate actual file content size (third line of defense)
             if (result.fileContent != null && result.fileContent.length > MAX_FILE_SIZE) {
                 String response = "File too large: Maximum file size is " + (MAX_FILE_SIZE / (1024 * 1024)) + "MB";
@@ -209,28 +226,29 @@ public class UploadHandler implements HttpHandler {
             if (filename == null || filename.trim().isEmpty()) {
                 filename = "unnamed-file.txt";
             }
-            
-            // Check 4: Validate file extension (block executables and malicious files)
+
+            // Check 4 (Optional): Validate file extension (now allows all extensions)
             if (!isAllowedExtension(filename)) {
-                String response = "File type not allowed. Allowed extensions: .txt, .pdf, .jpg, .jpeg, .png, .gif, .zip, .doc, .docx, .csv, .mp4";
+                String response = "File type not allowed.";
                 exchange.sendResponseHeaders(415, response.getBytes().length); // 415 Unsupported Media Type
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes());
                 }
                 return;
             }
-            
-            // Check 5: Validate MIME type from multipart Content-Type (extra safety layer)
+
+            // Check 5 (Optional): Validate MIME type from multipart Content-Type (now allows all MIME
+            // types)
             String fileMimeType = result.contentType;
             if (!isAllowedMimeType(fileMimeType)) {
-                String response = "MIME type not allowed. Allowed types: text/plain, application/pdf, image/jpeg, image/png, image/gif, application/zip, application/octet-stream, application/msword, text/csv";
+                String response = "MIME type not allowed.";
                 exchange.sendResponseHeaders(415, response.getBytes().length);
                 try (OutputStream os = exchange.getResponseBody()) {
                     os.write(response.getBytes());
                 }
                 return;
             }
-            
+
             String uniqueFileName = UUID.randomUUID() + "_" + new File(filename).getName();
             String filePath = uploadDir + File.separator + uniqueFileName;
 
