@@ -52,16 +52,7 @@ n2n implements a hybrid  model:
 - **Direct Transfer**: Actual file data flows directly between nodes via TCP sockets
 - **Dynamic Ports**: Each file sharing session uses a unique, randomly assigned port
 
-```
-┌─────────┐         ┌──────────────┐         ┌───────────┐
-│ Uploader│◄───────►│   Backend    │◄───────►│Downloader │
-│         │ Metadata│  (Java API)  │ Metadata│           │
-└────┬────┘         └──────────────┘         └─────┬─────┘
-     │                                             │
-     │          Direct  Transfer                │
-     └─────────────────────────────────────────────┘
-                  (TCP Socket)
-```
+![alt text](diagram-export-2-3-2026-9_15_34-PM.png)
 
 ### **2. Multi-Layered Security**
 
@@ -142,6 +133,9 @@ Clean, stateless API endpoints following REST principles:
 - `ConcurrentHashMap` for shared state
 - `AtomicInteger` for lock-free counters
 - No race conditions in concurrent operations
+
+### **7. Data Flow**
+![alt text](file-flow.png)
 
 ---
 
