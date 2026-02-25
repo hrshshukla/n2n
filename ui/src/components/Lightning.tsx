@@ -182,7 +182,7 @@ const Lightning: React.FC<LightningProps> = ({ hue = 230, xOffset = 0, speed = 1
     };
   }, [hue, xOffset, speed, intensity, size]);
 
-  return <canvas ref={canvasRef} className="w-full h-full absolute z-9" />;
+  return <canvas ref={canvasRef} className=" h-full absolute w-screen z-9" />;
 };
 
 export default Lightning;
